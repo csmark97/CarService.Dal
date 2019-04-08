@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20190312222312_Initial.cs" />
+    <Compile Remove="Migrations\20190312232036_Initial.cs" />
+    <Compile Remove="Migrations\20190312232803_Initial.cs" />
+    <Compile Remove="Migrations\20190312235233_Initial.cs" />
+    <Compile Remove="Migrations\20190320213302_Initial2.cs" />
+    <Compile Remove="Migrations\20190320221857_Initial.cs" />
+    <Compile Remove="Migrations\20190320223553_Initial.cs" />
+    <Compile Remove="Migrations\20190323160622_Initial.cs" />
+    <Compile Remove="Migrations\20190325190040_Initial.cs" />
+    <Compile Remove="Migrations\20190325194143_Initial.cs" />
+    <Compile Remove="Migrations\20190325212535_Initial.cs" />
+    <Compile Remove="Migrations\20190325233121_Initial.cs" />
+    <Compile Remove="Migrations\20190326002358_Initial.cs" />
+    <Compile Remove="Migrations\20190403205824_Initial.cs" />
+    <Compile Remove="Migrations\20190403210209_ApplicationUserIdTypeChanged.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore">
+      <HintPath>..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.identity.entityframeworkcore\2.1.1\lib\netstandard2.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
