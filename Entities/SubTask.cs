@@ -2,7 +2,7 @@
 
 namespace CarService.Dal.Entities
 {
-    public class Task
+    public class SubTask
     {
         public int Id { get; set; }
         public string Name { get; set; }

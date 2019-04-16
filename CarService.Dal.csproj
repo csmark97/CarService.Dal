@@ -20,6 +20,7 @@
     <Compile Remove="Migrations\20190326002358_Initial.cs" />
     <Compile Remove="Migrations\20190403205824_Initial.cs" />
     <Compile Remove="Migrations\20190403210209_ApplicationUserIdTypeChanged.cs" />
+    <Compile Remove="Migrations\20190416150438_Initial.cs" />
   </ItemGroup>
 
   <ItemGroup>

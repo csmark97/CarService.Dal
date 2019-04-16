@@ -19,14 +19,45 @@ namespace CarService.Dal.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CarService.Dal.Entities.ApplicationUser", b =>
+            modelBuilder.Entity("CarService.Dal.Entities.Car", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Brand");
+
+                    b.Property<string>("ClientUserId");
+
+                    b.Property<int>("Km");
+
+                    b.Property<string>("LicensePlateNumber");
+
+                    b.Property<string>("Model");
+
+                    b.Property<string>("Picture");
+
+                    b.Property<DateTime>("TechnicalValidity");
+
+                    b.Property<string>("Vin");
+
+                    b.Property<int>("YearOfManufacture");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientUserId");
+
+                    b.ToTable("Cars");
+                });
+
+            modelBuilder.Entity("CarService.Dal.Entities.ClientUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<int?>("CompanyId");
+                    b.Property<string>("CompanyId");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -63,8 +94,6 @@ namespace CarService.Dal.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
-                    b.Property<int>("UserType");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
@@ -77,73 +106,49 @@ namespace CarService.Dal.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("ApplicationUser","dbo");
-                });
-
-            modelBuilder.Entity("CarService.Dal.Entities.Car", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ApplicationUserId");
-
-                    b.Property<string>("Brand");
-
-                    b.Property<int>("Km");
-
-                    b.Property<string>("LicensePlateNumber");
-
-                    b.Property<string>("Model");
-
-                    b.Property<string>("Picture");
-
-                    b.Property<DateTime>("TechnicalValidity");
-
-                    b.Property<string>("Vin");
-
-                    b.Property<int>("YearOfManufacture");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.ToTable("Cars");
+                    b.ToTable("ClientUser","dbo");
                 });
 
             modelBuilder.Entity("CarService.Dal.Entities.Company", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<string>("City");
+                    b.Property<int>("AccessFailedCount");
 
-                    b.Property<int>("HouseNumber");
+                    b.Property<string>("ConcurrencyStamp");
+
+                    b.Property<string>("Email");
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
 
                     b.Property<string>("Name");
 
+                    b.Property<string>("NormalizedEmail");
+
+                    b.Property<string>("NormalizedUserName");
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
                     b.Property<string>("PrivateKey");
 
-                    b.Property<string>("Street");
+                    b.Property<string>("SecurityStamp");
 
-                    b.Property<int>("Zip");
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            City = "Forró",
-                            HouseNumber = 188,
-                            Name = "Autós Bázis Kft.",
-                            PrivateKey = "RNckqbbS",
-                            Street = "Fő út",
-                            Zip = 3849
-                        });
+                    b.ToTable("Company","dbo");
                 });
 
             modelBuilder.Entity("CarService.Dal.Entities.Service", b =>
@@ -182,7 +187,7 @@ namespace CarService.Dal.Migrations
                     b.ToTable("States");
                 });
 
-            modelBuilder.Entity("CarService.Dal.Entities.Task", b =>
+            modelBuilder.Entity("CarService.Dal.Entities.SubTask", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -196,7 +201,7 @@ namespace CarService.Dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tasks");
+                    b.ToTable("SubTasks");
                 });
 
             modelBuilder.Entity("CarService.Dal.Entities.Work", b =>
@@ -204,10 +209,6 @@ namespace CarService.Dal.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ApplicationUserId");
-
-                    b.Property<string>("ApplicationUserId1");
 
                     b.Property<string>("CompanyDescription");
 
@@ -223,19 +224,69 @@ namespace CarService.Dal.Migrations
 
                     b.Property<int>("StateId");
 
-                    b.Property<int>("TaskId");
+                    b.Property<int>("SubTaskId");
+
+                    b.Property<string>("WorkerUserId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId1");
 
                     b.HasIndex("ServiceId");
 
                     b.HasIndex("StateId");
 
-                    b.HasIndex("TaskId");
+                    b.HasIndex("SubTaskId");
+
+                    b.HasIndex("WorkerUserId");
 
                     b.ToTable("Works");
+                });
+
+            modelBuilder.Entity("CarService.Dal.Entities.WorkerUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("CompanyId");
+
+                    b.Property<string>("ConcurrencyStamp");
+
+                    b.Property<string>("Email");
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("NormalizedEmail");
+
+                    b.Property<string>("NormalizedUserName");
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<int>("Picture");
+
+                    b.Property<string>("PrivateKey");
+
+                    b.Property<string>("SecurityStamp");
+
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("WorkerUser","dbo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -352,18 +403,65 @@ namespace CarService.Dal.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("CarService.Dal.Entities.ApplicationUser", b =>
-                {
-                    b.HasOne("CarService.Dal.Entities.Company", "Company")
-                        .WithMany("ApplicationUsers")
-                        .HasForeignKey("CompanyId");
-                });
-
             modelBuilder.Entity("CarService.Dal.Entities.Car", b =>
                 {
-                    b.HasOne("CarService.Dal.Entities.ApplicationUser", "ApplicationUser")
+                    b.HasOne("CarService.Dal.Entities.ClientUser", "ClientUser")
                         .WithMany()
-                        .HasForeignKey("ApplicationUserId");
+                        .HasForeignKey("ClientUserId");
+                });
+
+            modelBuilder.Entity("CarService.Dal.Entities.ClientUser", b =>
+                {
+                    b.HasOne("CarService.Dal.Entities.Company", "Company")
+                        .WithMany("ClientUsers")
+                        .HasForeignKey("CompanyId");
+
+                    b.OwnsOne("CarService.Dal.Entities.Address", "Address", b1 =>
+                        {
+                            b1.Property<string>("ClientUserId");
+
+                            b1.Property<string>("City");
+
+                            b1.Property<int>("HouseNumber");
+
+                            b1.Property<string>("Street");
+
+                            b1.Property<int>("Zip");
+
+                            b1.HasKey("ClientUserId");
+
+                            b1.ToTable("ClientUser","dbo");
+
+                            b1.HasOne("CarService.Dal.Entities.ClientUser")
+                                .WithOne("Address")
+                                .HasForeignKey("CarService.Dal.Entities.Address", "ClientUserId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+                });
+
+            modelBuilder.Entity("CarService.Dal.Entities.Company", b =>
+                {
+                    b.OwnsOne("CarService.Dal.Entities.Address", "Address", b1 =>
+                        {
+                            b1.Property<string>("CompanyId");
+
+                            b1.Property<string>("City");
+
+                            b1.Property<int>("HouseNumber");
+
+                            b1.Property<string>("Street");
+
+                            b1.Property<int>("Zip");
+
+                            b1.HasKey("CompanyId");
+
+                            b1.ToTable("Company","dbo");
+
+                            b1.HasOne("CarService.Dal.Entities.Company")
+                                .WithOne("Address")
+                                .HasForeignKey("CarService.Dal.Entities.Address", "CompanyId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
                 });
 
             modelBuilder.Entity("CarService.Dal.Entities.Service", b =>
@@ -376,10 +474,6 @@ namespace CarService.Dal.Migrations
 
             modelBuilder.Entity("CarService.Dal.Entities.Work", b =>
                 {
-                    b.HasOne("CarService.Dal.Entities.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId1");
-
                     b.HasOne("CarService.Dal.Entities.Service", "Service")
                         .WithMany("Works")
                         .HasForeignKey("ServiceId")
@@ -390,10 +484,21 @@ namespace CarService.Dal.Migrations
                         .HasForeignKey("StateId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("CarService.Dal.Entities.Task", "Task")
+                    b.HasOne("CarService.Dal.Entities.SubTask", "SubTask")
                         .WithMany("Works")
-                        .HasForeignKey("TaskId")
+                        .HasForeignKey("SubTaskId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CarService.Dal.Entities.WorkerUser", "WorkerUser")
+                        .WithMany()
+                        .HasForeignKey("WorkerUserId");
+                });
+
+            modelBuilder.Entity("CarService.Dal.Entities.WorkerUser", b =>
+                {
+                    b.HasOne("CarService.Dal.Entities.Company", "Company")
+                        .WithMany("WorkerUsers")
+                        .HasForeignKey("CompanyId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -406,7 +511,7 @@ namespace CarService.Dal.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("CarService.Dal.Entities.ApplicationUser")
+                    b.HasOne("CarService.Dal.Entities.ClientUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -414,7 +519,7 @@ namespace CarService.Dal.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("CarService.Dal.Entities.ApplicationUser")
+                    b.HasOne("CarService.Dal.Entities.ClientUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -427,7 +532,7 @@ namespace CarService.Dal.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("CarService.Dal.Entities.ApplicationUser")
+                    b.HasOne("CarService.Dal.Entities.ClientUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -435,7 +540,7 @@ namespace CarService.Dal.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("CarService.Dal.Entities.ApplicationUser")
+                    b.HasOne("CarService.Dal.Entities.ClientUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

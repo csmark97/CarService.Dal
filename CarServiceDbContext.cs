@@ -9,34 +9,35 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarService.Dal
 {
-    public class CarServiceDbContext : IdentityDbContext<ApplicationUser>
+    public class CarServiceDbContext : IdentityDbContext<ClientUser>
     {
         public CarServiceDbContext(DbContextOptions options) : base(options) { }
         public DbSet<Car> Cars { get; set; }
+        //public DbSet<ClientUser> ClientUsers { get; set; }
+        //public DbSet<Company> Companies { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<State> States { get; set; }
-        public DbSet<Task> Tasks { get; set; }
+        public DbSet<SubTask> SubTasks { get; set; }
         public DbSet<Work> Works { get; set; }
-        public DbSet<ApplicationUser> ApplicationUser { get; set; }
-        public DbSet<Company> Companies { get; set; }
+        //public DbSet<WorkerUser> WorkerUsers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<ApplicationUser>()
-                        .ToTable("ApplicationUser", "dbo");
+            modelBuilder.Entity<ClientUser>(e =>
+            {
+                e.OwnsOne(o => o.Address);
+            });
 
-            modelBuilder.Entity<Company>().HasData(
-                new Company
-                {
-                    Id = 1,
-                    Name = "Autós Bázis Kft.",
-                    Zip = 3849,
-                    City = "Forró",
-                    Street = "Fő út",
-                    HouseNumber = 188,
-                    PrivateKey = "RNckqbbS"
-                });
+            modelBuilder.Entity<Company>(e =>
+            {
+                e.OwnsOne(o => o.Address);
+            });
+
+            //modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<ClientUser>().ToTable("ClientUser", "dbo");
+            modelBuilder.Entity<WorkerUser>().ToTable("WorkerUser", "dbo");
+            modelBuilder.Entity<Company>().ToTable("Company", "dbo");
         }
     }
 }

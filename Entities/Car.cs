@@ -15,8 +15,8 @@ namespace CarService.Dal.Entities
         public int Km { get; set; }
         public DateTime TechnicalValidity { get; set; }
         public string Picture { get; set; }
-        public string ApplicationUserId { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
+        public string ClientUserId { get; set; }
+        public ClientUser ClientUser { get; set; }
         public ICollection<Service> Services { get; set; }
     }
 }

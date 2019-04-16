@@ -26,24 +26,6 @@ namespace CarService.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Companies",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Zip = table.Column<int>(nullable: false),
-                    City = table.Column<string>(nullable: true),
-                    Street = table.Column<string>(nullable: true),
-                    HouseNumber = table.Column<int>(nullable: false),
-                    PrivateKey = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Companies", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "States",
                 columns: table => new
                 {
@@ -57,7 +39,7 @@ namespace CarService.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tasks",
+                name: "SubTasks",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -68,7 +50,39 @@ namespace CarService.Dal.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tasks", x => x.Id);
+                    table.PrimaryKey("PK_SubTasks", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Company",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    UserName = table.Column<string>(nullable: true),
+                    NormalizedUserName = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    NormalizedEmail = table.Column<string>(nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Address_Zip = table.Column<int>(nullable: false),
+                    Address_City = table.Column<string>(nullable: true),
+                    Address_Street = table.Column<string>(nullable: true),
+                    Address_HouseNumber = table.Column<int>(nullable: false),
+                    PrivateKey = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Company", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -93,7 +107,7 @@ namespace CarService.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ApplicationUser",
+                name: "ClientUser",
                 schema: "dbo",
                 columns: table => new
                 {
@@ -114,16 +128,57 @@ namespace CarService.Dal.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Picture = table.Column<int>(nullable: false),
-                    CompanyId = table.Column<int>(nullable: true),
-                    UserType = table.Column<int>(nullable: false)
+                    CompanyId = table.Column<string>(nullable: true),
+                    Address_Zip = table.Column<int>(nullable: false),
+                    Address_City = table.Column<string>(nullable: true),
+                    Address_Street = table.Column<string>(nullable: true),
+                    Address_HouseNumber = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ApplicationUser", x => x.Id);
+                    table.PrimaryKey("PK_ClientUser", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ApplicationUser_Companies_CompanyId",
+                        name: "FK_ClientUser_Company_CompanyId",
                         column: x => x.CompanyId,
-                        principalTable: "Companies",
+                        principalSchema: "dbo",
+                        principalTable: "Company",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WorkerUser",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    UserName = table.Column<string>(nullable: true),
+                    NormalizedUserName = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    NormalizedEmail = table.Column<string>(nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Picture = table.Column<int>(nullable: false),
+                    CompanyId = table.Column<string>(nullable: true),
+                    PrivateKey = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WorkerUser", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WorkerUser_Company_CompanyId",
+                        column: x => x.CompanyId,
+                        principalSchema: "dbo",
+                        principalTable: "Company",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -142,10 +197,10 @@ namespace CarService.Dal.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUserClaims_ApplicationUser_UserId",
+                        name: "FK_AspNetUserClaims_ClientUser_UserId",
                         column: x => x.UserId,
                         principalSchema: "dbo",
-                        principalTable: "ApplicationUser",
+                        principalTable: "ClientUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -163,10 +218,10 @@ namespace CarService.Dal.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
-                        name: "FK_AspNetUserLogins_ApplicationUser_UserId",
+                        name: "FK_AspNetUserLogins_ClientUser_UserId",
                         column: x => x.UserId,
                         principalSchema: "dbo",
-                        principalTable: "ApplicationUser",
+                        principalTable: "ClientUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -188,10 +243,10 @@ namespace CarService.Dal.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AspNetUserRoles_ApplicationUser_UserId",
+                        name: "FK_AspNetUserRoles_ClientUser_UserId",
                         column: x => x.UserId,
                         principalSchema: "dbo",
-                        principalTable: "ApplicationUser",
+                        principalTable: "ClientUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -209,10 +264,10 @@ namespace CarService.Dal.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
-                        name: "FK_AspNetUserTokens_ApplicationUser_UserId",
+                        name: "FK_AspNetUserTokens_ClientUser_UserId",
                         column: x => x.UserId,
                         principalSchema: "dbo",
-                        principalTable: "ApplicationUser",
+                        principalTable: "ClientUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -231,16 +286,16 @@ namespace CarService.Dal.Migrations
                     Km = table.Column<int>(nullable: false),
                     TechnicalValidity = table.Column<DateTime>(nullable: false),
                     Picture = table.Column<string>(nullable: true),
-                    ApplicationUserId = table.Column<string>(nullable: true)
+                    ClientUserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cars", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cars_ApplicationUser_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
+                        name: "FK_Cars_ClientUser_ClientUserId",
+                        column: x => x.ClientUserId,
                         principalSchema: "dbo",
-                        principalTable: "ApplicationUser",
+                        principalTable: "ClientUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -279,22 +334,14 @@ namespace CarService.Dal.Migrations
                     Price = table.Column<int>(nullable: false),
                     OwnerDescription = table.Column<string>(nullable: true),
                     CompanyDescription = table.Column<string>(nullable: true),
-                    TaskId = table.Column<int>(nullable: false),
+                    SubTaskId = table.Column<int>(nullable: false),
                     ServiceId = table.Column<int>(nullable: false),
                     StateId = table.Column<int>(nullable: false),
-                    ApplicationUserId = table.Column<int>(nullable: false),
-                    ApplicationUserId1 = table.Column<string>(nullable: true)
+                    WorkerUserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Works", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Works_ApplicationUser_ApplicationUserId1",
-                        column: x => x.ApplicationUserId1,
-                        principalSchema: "dbo",
-                        principalTable: "ApplicationUser",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Works_Services_ServiceId",
                         column: x => x.ServiceId,
@@ -308,17 +355,19 @@ namespace CarService.Dal.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Works_Tasks_TaskId",
-                        column: x => x.TaskId,
-                        principalTable: "Tasks",
+                        name: "FK_Works_SubTasks_SubTaskId",
+                        column: x => x.SubTaskId,
+                        principalTable: "SubTasks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Works_WorkerUser_WorkerUserId",
+                        column: x => x.WorkerUserId,
+                        principalSchema: "dbo",
+                        principalTable: "WorkerUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.InsertData(
-                table: "Companies",
-                columns: new[] { "Id", "City", "HouseNumber", "Name", "PrivateKey", "Street", "Zip" },
-                values: new object[] { 1, "Forró", 188, "Autós Bázis Kft.", "RNckqbbS", "Fő út", 3849 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -348,19 +397,14 @@ namespace CarService.Dal.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cars_ApplicationUserId",
+                name: "IX_Cars_ClientUserId",
                 table: "Cars",
-                column: "ApplicationUserId");
+                column: "ClientUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Services_CarId",
                 table: "Services",
                 column: "CarId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Works_ApplicationUserId1",
-                table: "Works",
-                column: "ApplicationUserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Works_ServiceId",
@@ -373,29 +417,40 @@ namespace CarService.Dal.Migrations
                 column: "StateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Works_TaskId",
+                name: "IX_Works_SubTaskId",
                 table: "Works",
-                column: "TaskId");
+                column: "SubTaskId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ApplicationUser_CompanyId",
+                name: "IX_Works_WorkerUserId",
+                table: "Works",
+                column: "WorkerUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientUser_CompanyId",
                 schema: "dbo",
-                table: "ApplicationUser",
+                table: "ClientUser",
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 schema: "dbo",
-                table: "ApplicationUser",
+                table: "ClientUser",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 schema: "dbo",
-                table: "ApplicationUser",
+                table: "ClientUser",
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkerUser_CompanyId",
+                schema: "dbo",
+                table: "WorkerUser",
+                column: "CompanyId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -428,17 +483,22 @@ namespace CarService.Dal.Migrations
                 name: "States");
 
             migrationBuilder.DropTable(
-                name: "Tasks");
+                name: "SubTasks");
+
+            migrationBuilder.DropTable(
+                name: "WorkerUser",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
                 name: "Cars");
 
             migrationBuilder.DropTable(
-                name: "ApplicationUser",
+                name: "ClientUser",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "Companies");
+                name: "Company",
+                schema: "dbo");
         }
     }
 }
