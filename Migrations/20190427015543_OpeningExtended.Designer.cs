@@ -5,14 +5,16 @@ using CarService.Dal.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarService.Dal.Migrations
 {
     [DbContext(typeof(CarServiceDbContext))]
-    partial class CarServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190427015543_OpeningExtended")]
+    partial class OpeningExtended
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,7 +73,7 @@ namespace CarService.Dal.Migrations
 
                     b.Property<DateTime>("EndWednesday");
 
-                    b.Property<bool>("SaturdayOpen");
+                    b.Property<bool>("SaturdayClosed");
 
                     b.Property<DateTime>("StartFriday");
 
@@ -87,7 +89,7 @@ namespace CarService.Dal.Migrations
 
                     b.Property<DateTime>("StartWednesday");
 
-                    b.Property<bool>("SundayOpen");
+                    b.Property<bool>("SundayClosed");
 
                     b.HasKey("Id");
 
@@ -136,7 +138,9 @@ namespace CarService.Dal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CompanyId");
+                    b.Property<int>("CompanyId");
+
+                    b.Property<string>("CompanyId1");
 
                     b.Property<int>("EstimatedPrice");
 
@@ -148,7 +152,7 @@ namespace CarService.Dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId");
+                    b.HasIndex("CompanyId1");
 
                     b.ToTable("SubTasks");
                 });
@@ -411,7 +415,7 @@ namespace CarService.Dal.Migrations
                 {
                     b.HasOne("CarService.Dal.Entities.CompanyUser", "Company")
                         .WithMany("SubTasks")
-                        .HasForeignKey("CompanyId");
+                        .HasForeignKey("CompanyId1");
                 });
 
             modelBuilder.Entity("CarService.Dal.Entities.User", b =>

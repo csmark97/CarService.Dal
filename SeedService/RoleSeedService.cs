@@ -10,25 +10,27 @@ namespace CarService.Dal.SeedService
 {
     public class RoleSeedService : IRoleSeedService
     {
-        private readonly RoleManager<IdentityRole<int>> _roleManager;
-        public RoleSeedService(RoleManager<IdentityRole<int>> roleManager) =>
+        private readonly RoleManager<IdentityRole<string>> _roleManager;
+
+        public RoleSeedService(RoleManager<IdentityRole<string>> roleManager) =>
         _roleManager = roleManager;
+
         public async Task SeedRoleAsync()
         {
             if (!await _roleManager.RoleExistsAsync(Roles.Clients))
             {
-                await _roleManager.CreateAsync(new IdentityRole<int> { Name = Roles.Companies });
+                await _roleManager.CreateAsync(new IdentityRole<string> { Name = Roles.Clients });
             }
 
             if (!await _roleManager.RoleExistsAsync(Roles.Companies))
             {
-                await _roleManager.CreateAsync(new IdentityRole<int> { Name = Roles.Companies });
+                await _roleManager.CreateAsync(new IdentityRole<string> { Name = Roles.Companies });
             }
 
             if (!await _roleManager.RoleExistsAsync(Roles.Workers))
             {
-                await _roleManager.CreateAsync(new IdentityRole<int> { Name = Roles.Companies });
+                await _roleManager.CreateAsync(new IdentityRole<string> { Name = Roles.Workers });
             }
-        }
+        }
     }
 }

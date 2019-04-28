@@ -5,11 +5,10 @@ using System.Text;
 
 namespace CarService.Dal.Entities
 {
-    public class User : IdentityUser
+    public abstract class User : IdentityUser<string>
     {
         public string Name { get; set; }
-        public int Picture { get; set; }
-        public string CompanyId { get; set; }
-        public Company Company { get; set; }
+        public Address Address { get; set; }
+        public string Picture { get; set; }
     }
 }

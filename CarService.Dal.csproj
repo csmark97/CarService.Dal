@@ -21,6 +21,7 @@
     <Compile Remove="Migrations\20190403205824_Initial.cs" />
     <Compile Remove="Migrations\20190403210209_ApplicationUserIdTypeChanged.cs" />
     <Compile Remove="Migrations\20190416150438_Initial.cs" />
+    <Compile Remove="Migrations\20190428122543_SubTaskCompanyIdFKToString.cs" />
   </ItemGroup>
 
   <ItemGroup>

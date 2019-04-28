@@ -1,7 +1,9 @@
-﻿namespace CarService.Dal.Entities
+﻿using System.Collections.Generic;
+
+namespace CarService.Dal.Entities
 {
     public class ClientUser : User
     {
-        public Address Address { get; set; }
+        public ICollection<Car> Cars { get; set; }
     }
 }

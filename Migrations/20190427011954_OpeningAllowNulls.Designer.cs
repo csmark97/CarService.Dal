@@ -5,14 +5,16 @@ using CarService.Dal.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarService.Dal.Migrations
 {
     [DbContext(typeof(CarServiceDbContext))]
-    partial class CarServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190427011954_OpeningAllowNulls")]
+    partial class OpeningAllowNulls
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,37 +59,23 @@ namespace CarService.Dal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("EndFriday");
+                    b.Property<DateTime>("Friday");
 
-                    b.Property<DateTime>("EndMonday");
+                    b.Property<DateTime>("Monday");
 
-                    b.Property<DateTime?>("EndSaturday");
+                    b.Property<DateTime?>("Saturday");
 
-                    b.Property<DateTime?>("EndSunday");
+                    b.Property<bool>("SaturdayClosed");
 
-                    b.Property<DateTime>("EndThursday");
+                    b.Property<DateTime?>("Sunday");
 
-                    b.Property<DateTime>("EndTuesday");
+                    b.Property<bool>("SundayClosed");
 
-                    b.Property<DateTime>("EndWednesday");
+                    b.Property<DateTime>("Thursday");
 
-                    b.Property<bool>("SaturdayOpen");
+                    b.Property<DateTime>("Tuesday");
 
-                    b.Property<DateTime>("StartFriday");
-
-                    b.Property<DateTime>("StartMonday");
-
-                    b.Property<DateTime?>("StartSaturday");
-
-                    b.Property<DateTime?>("StartSunday");
-
-                    b.Property<DateTime>("StartThursday");
-
-                    b.Property<DateTime>("StartTuesday");
-
-                    b.Property<DateTime>("StartWednesday");
-
-                    b.Property<bool>("SundayOpen");
+                    b.Property<DateTime>("Wednesday");
 
                     b.HasKey("Id");
 
@@ -136,7 +124,9 @@ namespace CarService.Dal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CompanyId");
+                    b.Property<int>("CompanyId");
+
+                    b.Property<string>("CompanyId1");
 
                     b.Property<int>("EstimatedPrice");
 
@@ -148,7 +138,7 @@ namespace CarService.Dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId");
+                    b.HasIndex("CompanyId1");
 
                     b.ToTable("SubTasks");
                 });
@@ -411,7 +401,7 @@ namespace CarService.Dal.Migrations
                 {
                     b.HasOne("CarService.Dal.Entities.CompanyUser", "Company")
                         .WithMany("SubTasks")
-                        .HasForeignKey("CompanyId");
+                        .HasForeignKey("CompanyId1");
                 });
 
             modelBuilder.Entity("CarService.Dal.Entities.User", b =>

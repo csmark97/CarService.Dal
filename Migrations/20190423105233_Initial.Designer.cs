@@ -5,14 +5,16 @@ using CarService.Dal.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarService.Dal.Migrations
 {
     [DbContext(typeof(CarServiceDbContext))]
-    partial class CarServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190423105233_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,49 +51,6 @@ namespace CarService.Dal.Migrations
                     b.HasIndex("ClientUserId");
 
                     b.ToTable("Cars");
-                });
-
-            modelBuilder.Entity("CarService.Dal.Entities.Opening", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("EndFriday");
-
-                    b.Property<DateTime>("EndMonday");
-
-                    b.Property<DateTime?>("EndSaturday");
-
-                    b.Property<DateTime?>("EndSunday");
-
-                    b.Property<DateTime>("EndThursday");
-
-                    b.Property<DateTime>("EndTuesday");
-
-                    b.Property<DateTime>("EndWednesday");
-
-                    b.Property<bool>("SaturdayOpen");
-
-                    b.Property<DateTime>("StartFriday");
-
-                    b.Property<DateTime>("StartMonday");
-
-                    b.Property<DateTime?>("StartSaturday");
-
-                    b.Property<DateTime?>("StartSunday");
-
-                    b.Property<DateTime>("StartThursday");
-
-                    b.Property<DateTime>("StartTuesday");
-
-                    b.Property<DateTime>("StartWednesday");
-
-                    b.Property<bool>("SundayOpen");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Openings");
                 });
 
             modelBuilder.Entity("CarService.Dal.Entities.Service", b =>
@@ -136,7 +95,9 @@ namespace CarService.Dal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CompanyId");
+                    b.Property<int>("CompanyId");
+
+                    b.Property<string>("CompanyId1");
 
                     b.Property<int>("EstimatedPrice");
 
@@ -148,7 +109,7 @@ namespace CarService.Dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId");
+                    b.HasIndex("CompanyId1");
 
                     b.ToTable("SubTasks");
                 });
@@ -370,13 +331,7 @@ namespace CarService.Dal.Migrations
                 {
                     b.HasBaseType("CarService.Dal.Entities.User");
 
-                    b.Property<int>("OpeningId");
-
                     b.Property<string>("PrivateKey");
-
-                    b.HasIndex("OpeningId")
-                        .IsUnique()
-                        .HasFilter("[OpeningId] IS NOT NULL");
 
                     b.HasDiscriminator().HasValue(2);
                 });
@@ -411,7 +366,7 @@ namespace CarService.Dal.Migrations
                 {
                     b.HasOne("CarService.Dal.Entities.CompanyUser", "Company")
                         .WithMany("SubTasks")
-                        .HasForeignKey("CompanyId");
+                        .HasForeignKey("CompanyId1");
                 });
 
             modelBuilder.Entity("CarService.Dal.Entities.User", b =>
@@ -503,14 +458,6 @@ namespace CarService.Dal.Migrations
                     b.HasOne("CarService.Dal.Entities.User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("CarService.Dal.Entities.CompanyUser", b =>
-                {
-                    b.HasOne("CarService.Dal.Entities.Opening", "Opening")
-                        .WithOne("CompanyUser")
-                        .HasForeignKey("CarService.Dal.Entities.CompanyUser", "OpeningId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
