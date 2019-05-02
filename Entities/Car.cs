@@ -16,7 +16,7 @@ namespace CarService.Dal.Entities
         public DateTime TechnicalValidity { get; set; }
         public string Picture { get; set; } //maybe byte
         public string ClientUserId { get; set; }
-        public ClientUser ClientUser { get; set; }
-        public ICollection<Service> Services { get; set; }
+        public virtual ClientUser ClientUser { get; set; }
+        public virtual ICollection<Service> Services { get; set; }
     }
 }

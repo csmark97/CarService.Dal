@@ -5,18 +5,20 @@ using CarService.Dal.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarService.Dal.Migrations
 {
     [DbContext(typeof(CarServiceDbContext))]
-    partial class CarServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190428171411_ChangeSubTaskFKName")]
+    partial class ChangeSubTaskFKName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -57,7 +59,35 @@ namespace CarService.Dal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("EndFriday");
+
+                    b.Property<DateTime>("EndMonday");
+
+                    b.Property<DateTime?>("EndSaturday");
+
+                    b.Property<DateTime?>("EndSunday");
+
+                    b.Property<DateTime>("EndThursday");
+
+                    b.Property<DateTime>("EndTuesday");
+
+                    b.Property<DateTime>("EndWednesday");
+
                     b.Property<bool>("SaturdayOpen");
+
+                    b.Property<DateTime>("StartFriday");
+
+                    b.Property<DateTime>("StartMonday");
+
+                    b.Property<DateTime?>("StartSaturday");
+
+                    b.Property<DateTime?>("StartSunday");
+
+                    b.Property<DateTime>("StartThursday");
+
+                    b.Property<DateTime>("StartTuesday");
+
+                    b.Property<DateTime>("StartWednesday");
 
                     b.Property<bool>("SundayOpen");
 
@@ -100,38 +130,6 @@ namespace CarService.Dal.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("States");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Requested"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Accepted"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Begun"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Paid"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Finished"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "PaidAndFinished"
-                        });
                 });
 
             modelBuilder.Entity("CarService.Dal.Entities.SubTask", b =>
@@ -401,149 +399,6 @@ namespace CarService.Dal.Migrations
                     b.HasOne("CarService.Dal.Entities.ClientUser", "ClientUser")
                         .WithMany("Cars")
                         .HasForeignKey("ClientUserId");
-                });
-
-            modelBuilder.Entity("CarService.Dal.Entities.Opening", b =>
-                {
-                    b.OwnsOne("CarService.Dal.Entities.OpeningDay", "Friday", b1 =>
-                        {
-                            b1.Property<int>("OpeningId")
-                                .ValueGeneratedOnAdd()
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<DateTime>("End");
-
-                            b1.Property<DateTime>("Start");
-
-                            b1.HasKey("OpeningId");
-
-                            b1.ToTable("Openings");
-
-                            b1.HasOne("CarService.Dal.Entities.Opening")
-                                .WithOne("Friday")
-                                .HasForeignKey("CarService.Dal.Entities.OpeningDay", "OpeningId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("CarService.Dal.Entities.OpeningDay", "Monday", b1 =>
-                        {
-                            b1.Property<int>("OpeningId")
-                                .ValueGeneratedOnAdd()
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<DateTime>("End");
-
-                            b1.Property<DateTime>("Start");
-
-                            b1.HasKey("OpeningId");
-
-                            b1.ToTable("Openings");
-
-                            b1.HasOne("CarService.Dal.Entities.Opening")
-                                .WithOne("Monday")
-                                .HasForeignKey("CarService.Dal.Entities.OpeningDay", "OpeningId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("CarService.Dal.Entities.OpeningDay", "Saturday", b1 =>
-                        {
-                            b1.Property<int>("OpeningId")
-                                .ValueGeneratedOnAdd()
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<DateTime>("End");
-
-                            b1.Property<DateTime>("Start");
-
-                            b1.HasKey("OpeningId");
-
-                            b1.ToTable("Openings");
-
-                            b1.HasOne("CarService.Dal.Entities.Opening")
-                                .WithOne("Saturday")
-                                .HasForeignKey("CarService.Dal.Entities.OpeningDay", "OpeningId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("CarService.Dal.Entities.OpeningDay", "Sunday", b1 =>
-                        {
-                            b1.Property<int>("OpeningId")
-                                .ValueGeneratedOnAdd()
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<DateTime>("End");
-
-                            b1.Property<DateTime>("Start");
-
-                            b1.HasKey("OpeningId");
-
-                            b1.ToTable("Openings");
-
-                            b1.HasOne("CarService.Dal.Entities.Opening")
-                                .WithOne("Sunday")
-                                .HasForeignKey("CarService.Dal.Entities.OpeningDay", "OpeningId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("CarService.Dal.Entities.OpeningDay", "Thursday", b1 =>
-                        {
-                            b1.Property<int>("OpeningId")
-                                .ValueGeneratedOnAdd()
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<DateTime>("End");
-
-                            b1.Property<DateTime>("Start");
-
-                            b1.HasKey("OpeningId");
-
-                            b1.ToTable("Openings");
-
-                            b1.HasOne("CarService.Dal.Entities.Opening")
-                                .WithOne("Thursday")
-                                .HasForeignKey("CarService.Dal.Entities.OpeningDay", "OpeningId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("CarService.Dal.Entities.OpeningDay", "Tuesday", b1 =>
-                        {
-                            b1.Property<int>("OpeningId")
-                                .ValueGeneratedOnAdd()
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<DateTime>("End");
-
-                            b1.Property<DateTime>("Start");
-
-                            b1.HasKey("OpeningId");
-
-                            b1.ToTable("Openings");
-
-                            b1.HasOne("CarService.Dal.Entities.Opening")
-                                .WithOne("Tuesday")
-                                .HasForeignKey("CarService.Dal.Entities.OpeningDay", "OpeningId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("CarService.Dal.Entities.OpeningDay", "Wednesday", b1 =>
-                        {
-                            b1.Property<int>("OpeningId")
-                                .ValueGeneratedOnAdd()
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<DateTime>("End");
-
-                            b1.Property<DateTime>("Start");
-
-                            b1.HasKey("OpeningId");
-
-                            b1.ToTable("Openings");
-
-                            b1.HasOne("CarService.Dal.Entities.Opening")
-                                .WithOne("Wednesday")
-                                .HasForeignKey("CarService.Dal.Entities.OpeningDay", "OpeningId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
                 });
 
             modelBuilder.Entity("CarService.Dal.Entities.Service", b =>

@@ -12,7 +12,7 @@ namespace CarService.Dal.Entities
         public int TotalPrice { get; set; }
         public string Invoice { get; set; }
         public int CarId { get; set; }
-        public Car Car { get; set; }
-        public ICollection<Work> Works { get; set; }
+        public virtual Car Car { get; set; }
+        public virtual ICollection<Work> Works { get; set; }
     }
 }

@@ -7,9 +7,9 @@ namespace CarService.Dal.Entities
     {
         public string PrivateKey { get; set; }
         //public bool Approved { get; set; }
-        public ICollection<WorkerUser> WorkerUsers { get; set; }
-        public ICollection<SubTask> SubTasks { get; set; }
+        public virtual ICollection<WorkerUser> WorkerUsers { get; set; }
+        public virtual ICollection<SubTask> SubTasks { get; set; }
         public int OpeningId { get; set; }
-        public Opening Opening { get; set; }
+        public virtual Opening Opening { get; set; }
     }
 }

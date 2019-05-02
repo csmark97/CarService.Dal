@@ -5,14 +5,16 @@ using CarService.Dal.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarService.Dal.Migrations
 {
     [DbContext(typeof(CarServiceDbContext))]
-    partial class CarServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190428201310_IntorduceOpeningDay")]
+    partial class IntorduceOpeningDay
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,38 +102,6 @@ namespace CarService.Dal.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("States");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Requested"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Accepted"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Begun"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Paid"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Finished"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "PaidAndFinished"
-                        });
                 });
 
             modelBuilder.Entity("CarService.Dal.Entities.SubTask", b =>

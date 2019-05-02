@@ -6,6 +6,6 @@ namespace CarService.Dal.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<Work> Works { get; set; }
+        public virtual ICollection<Work> Works { get; set; }
     }
 }

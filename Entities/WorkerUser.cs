@@ -7,8 +7,8 @@ namespace CarService.Dal.Entities
 {
     public class WorkerUser : User
     {
-        public ICollection<Work> Works { get; set; }
+        public virtual ICollection<Work> Works { get; set; }
         public string CompanyUserId { get; set; }
-        public CompanyUser CompanyUser { get; set; }
+        public virtual CompanyUser CompanyUser { get; set; }
     }
 }

@@ -4,6 +4,6 @@ namespace CarService.Dal.Entities
 {
     public class ClientUser : User
     {
-        public ICollection<Car> Cars { get; set; }
+        public virtual ICollection<Car> Cars { get; set; }
     }
 }

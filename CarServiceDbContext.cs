@@ -12,8 +12,15 @@ namespace CarService.Dal
 {
     public class CarServiceDbContext : IdentityDbContext<User, IdentityRole<string>, string>
     {
-        public CarServiceDbContext(DbContextOptions options) : base(options) { }
-        public DbSet<Car> Cars { get; set; }        
+        public CarServiceDbContext(DbContextOptions options) : base(options)
+        {
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
+
+        public DbSet<Car> Cars { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<SubTask> SubTasks { get; set; }
@@ -34,12 +41,29 @@ namespace CarService.Dal
                 e.OwnsOne(o => o.Address);
             });
 
+            modelBuilder.Entity<Opening>(e =>
+            {
+                e.OwnsOne(o => o.Monday);
+                e.OwnsOne(o => o.Tuesday);
+                e.OwnsOne(o => o.Wednesday);
+                e.OwnsOne(o => o.Thursday);
+                e.OwnsOne(o => o.Friday);
+                e.OwnsOne(o => o.Saturday);
+                e.OwnsOne(o => o.Sunday);
+            });
 
             modelBuilder.Entity<User>().ToTable("Users").HasDiscriminator<UserType>("UserType")
                 .HasValue<ClientUser>(UserType.CLIENT)
                 .HasValue<WorkerUser>(UserType.WORKER)
                 .HasValue<CompanyUser>(UserType.COMPANY);
 
+            modelBuilder.Entity<State>().HasData(
+                new State { Id = 1, Name = "Requested" },
+                new State { Id = 2, Name = "Accepted" },
+                new State { Id = 3, Name = "Begun" },
+                new State { Id = 4, Name = "Paid" },
+                new State { Id = 5, Name = "Finished" },
+                new State { Id = 6, Name = "PaidAndFinished" });
         }
-    }    
+    }
 }
