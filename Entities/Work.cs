@@ -13,7 +13,6 @@ namespace CarService.Dal.Entities
         //public string OwnerDescription { get; set; }
         //public string CompanyDescription { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
-        public int ApprovedByClient { get; set; }
         public int SubTaskId { get; set; }
         public virtual SubTask SubTask { get; set; }
         public int ServiceId { get; set; }
