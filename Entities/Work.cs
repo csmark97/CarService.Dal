@@ -10,8 +10,10 @@ namespace CarService.Dal.Entities
         public DateTime StartingTime { get; set; }
         public DateTime EndTime { get; set; }
         public int Price { get; set; }
-        public string OwnerDescription { get; set; }
-        public string CompanyDescription { get; set; }
+        //public string OwnerDescription { get; set; }
+        //public string CompanyDescription { get; set; }
+        public virtual ICollection<Message> Messages { get; set; }
+        public int ApprovedByClient { get; set; }
         public int SubTaskId { get; set; }
         public virtual SubTask SubTask { get; set; }
         public int ServiceId { get; set; }
