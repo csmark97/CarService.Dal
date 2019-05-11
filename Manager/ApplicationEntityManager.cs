@@ -23,6 +23,11 @@ namespace CarService.Dal.Manager
             return await _context.SubTasks.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
 
+        public static async Task<IList<Work>> GetWorksByWorkerIdAsync(string workerId)
+        {
+            return await _context.Works.Where(work => work.WorkerUserId == workerId).ToArrayAsync();
+        }
+
         public static async Task<IList<Service>> GetServcieByUserIdAsync(string id)
         {
             return await _context.Services

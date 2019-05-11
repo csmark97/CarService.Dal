@@ -24,5 +24,10 @@ namespace CarService.Dal.Manager
         {
             return await _context.ClientUsers.FirstOrDefaultAsync(u => u.Id == userId);
         }
+
+        public static async Task<WorkerUser> GetWorkerUserAsync(string userId)
+        {
+            return await _context.WorkerUsers.FirstOrDefaultAsync(u => u.Id == userId);
+        }
     }
 }
