@@ -97,7 +97,7 @@ namespace CarService.Dal.Manager
 
         public static async Task<Service> GetServcieByIdAsync(int id)
         {
-            return await _context.Services.Where(w => w.Id == id).FirstOrDefaultAsync();
+            return await _context.Services.Where(w => w.Id == id).Include(service => service.Works).FirstOrDefaultAsync();
         }
 
         public static void ModifyService(Service service)
