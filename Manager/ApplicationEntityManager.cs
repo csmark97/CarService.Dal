@@ -23,16 +23,36 @@ namespace CarService.Dal.Manager
             return await _context.SubTasks.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
 
-        public static async Task<IList<Work>> GetWorksByWorkerIdAsync(string workerId)
+        public static async Task<IList<Work>> GetRemainingWorksByWorkerIdAsync(string workerId)
         {
-            return await _context.Works.Where(work => work.WorkerUserId == workerId).ToArrayAsync();
+            return await _context.Works
+                .Where(work => work.WorkerUserId == workerId && work.StartingTime > DateTime.Today)
+                .OrderBy(work => work.StartingTime)
+                .ToArrayAsync();
         }
 
-        public static async Task<IList<Service>> GetServcieByUserIdAsync(string id)
+        public static async Task<IList<Service>> GetServiceByUserIdAsync(string id)
         {
             return await _context.Services
                 .Where(w => w.Car.ClientUserId == id)
                 .Include(s => s.Car).ToListAsync();
+        }
+
+        public static async Task<Work> GetWorkByIdAsync(int id)
+        {
+            return await _context.Works
+               .Include(w => w.Service)
+               .Include(w => w.State)
+               .Include(w => w.SubTask)
+               .Include(w => w.WorkerUser)
+               .FirstOrDefaultAsync(m => m.Id == id);
+        }
+
+        public static async Task ModifyWorkAsync(Work work)
+        {
+            _context.Attach(work).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
         }
 
         public static async Task<IList<Car>> GetCarsByUserIdAsync(string userId)
@@ -91,5 +111,6 @@ namespace CarService.Dal.Manager
             _context.Works.Add(work);
             await _context.SaveChangesAsync();
         }
+
     }
 }
