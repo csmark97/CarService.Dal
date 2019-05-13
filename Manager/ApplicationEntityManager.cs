@@ -87,17 +87,22 @@ namespace CarService.Dal.Manager
             return _context.Services.Any(e => e.Id == carId);
         }
 
-        public static IList<Service> GetServicesByCarId(int carId)
+        public static async Task<IList<Service>> GetServicesByCarIdAsync(int carId)
         {
-            return _context.Services
-                   .Where(e => e.Id == carId)
+            return await _context.Services
+                   .Where(e => e.CarId == carId)
                    .Include(w => w.Works)
-                   .ToList();
+                   .ToListAsync();
         }
 
         public static async Task<Service> GetServcieByIdAsync(int id)
         {
             return await _context.Services.Where(w => w.Id == id).Include(service => service.Works).FirstOrDefaultAsync();
+        }
+
+        public static async Task<IList<WorkerUser>> GetWorkerUsersByCompanyIdAsync(string companyId)
+        {
+            return await _context.WorkerUsers.Where(user => user.CompanyUserId == companyId).ToArrayAsync();
         }
 
         public static void ModifyService(Service service)
