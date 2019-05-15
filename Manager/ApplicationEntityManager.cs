@@ -23,6 +23,11 @@ namespace CarService.Dal.Manager
             return await _context.SubTasks.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
 
+        public static void GetEmailByUserIdAsync(string v, object userId)
+        {
+            throw new NotImplementedException();
+        }
+
         public static async Task<IList<Work>> GetRemainingWorksByWorkerIdAsync(string workerId)
         {
             return await _context.Works

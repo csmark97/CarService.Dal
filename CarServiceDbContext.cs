@@ -58,12 +58,12 @@ namespace CarService.Dal
                 .HasValue<CompanyUser>(UserType.COMPANY);
 
             modelBuilder.Entity<State>().HasData(
-                new State { Id = 1, Name = "Requested" },
-                new State { Id = 2, Name = "Accepted" },
-                new State { Id = 3, Name = "Begun" },
-                new State { Id = 4, Name = "Paid" },
-                new State { Id = 5, Name = "Finished" },
-                new State { Id = 6, Name = "PaidAndFinished" });
+                new State { Id = 1, Name = "Requested", NameHungarian = "Jóváhagyásra vár" },
+                new State { Id = 2, Name = "Accepted", NameHungarian = "Leadva" },
+                new State { Id = 3, Name = "Begun", NameHungarian = "Elkezdve" },
+                new State { Id = 4, Name = "Paid", NameHungarian = "Kifizetve" },
+                new State { Id = 5, Name = "Finished", NameHungarian = "Befejezett" },
+                new State { Id = 6, Name = "PaidAndFinished", NameHungarian = "Kifizetve és befejezve" });
         }
     }
 }
