@@ -28,6 +28,18 @@ namespace CarService.Dal.Manager
             throw new NotImplementedException();
         }
 
+        public static async Task<IList<Service>> GetServicesByCompanyIdAsync(CompanyUser user)
+        {
+            return await _context.Services
+                .Where(s => s.Works.Any(w => w.SubTask.CompanyUserId == user.Id))
+                .OrderBy(w => w.EndTime).Include(i => i.Works).ToListAsync();
+        }
+
+        public static async Task<Service> GetServiceByIdAsync(int id)
+        {
+            return await _context.Services.FindAsync(id);
+        }
+
         public static async Task<IList<Work>> GetRemainingWorksByWorkerIdAsync(string workerId)
         {
             return await _context.Works
