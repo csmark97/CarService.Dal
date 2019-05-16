@@ -26,6 +26,7 @@ namespace CarService.Dal
         public DbSet<SubTask> SubTasks { get; set; }
         public DbSet<Work> Works { get; set; }
         public DbSet<Opening> Openings { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         //Users
         public DbSet<WorkerUser> WorkerUsers { get; set; }

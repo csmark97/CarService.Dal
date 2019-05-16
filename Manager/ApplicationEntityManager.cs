@@ -50,6 +50,7 @@ namespace CarService.Dal.Manager
                .Include(w => w.State)
                .Include(w => w.SubTask)
                .Include(w => w.WorkerUser)
+               .Include(w => w.Messages)
                .FirstOrDefaultAsync(m => m.Id == id);
         }
 
@@ -70,7 +71,7 @@ namespace CarService.Dal.Manager
             return await _context.WorkerUsers.ToArrayAsync();
         }
 
-        public static async Task<IList<Work>> GetWorkByServiceIdAsync(int id)
+        public static async Task<IList<Work>> GetWorksByServiceIdAsync(int id)
         {
             return await _context.Works
                 .Where(w => w.ServiceId == id)
@@ -122,5 +123,15 @@ namespace CarService.Dal.Manager
             await _context.SaveChangesAsync();
         }
 
+        public static async Task<Car> GetCarByIdAsync(int carId)
+        {
+            return await _context.Cars.FindAsync(carId);
+        }
+
+        public static async Task SaveMessageAsync(Message message)
+        {
+            _context.Messages.Add(message);
+            await _context.SaveChangesAsync();
+        }
     }
 }
